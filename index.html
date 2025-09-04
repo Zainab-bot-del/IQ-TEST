@@ -3,129 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emotional Intelligence (EQ) Test</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>IQ Test - Measure Your Cognitive Abilities</title>
     <style>
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
             background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
             color: #333;
-            line-height: 1.6;
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
             padding: 20px;
         }
         
         .container {
-            max-width: 800px;
-            width: 100%;
-            background: white;
+            background-color: white;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 800px;
             overflow: hidden;
-            margin: 20px 0;
         }
         
         header {
-            background: #4e54c8;
+            background: linear-gradient(90deg, #3a1c71, #d76d77, #ffaf7b);
             color: white;
-            padding: 25px;
+            padding: 20px;
             text-align: center;
         }
         
-        header h1 {
-            font-size: 2.5rem;
+        h1 {
+            font-size: 2.2rem;
             margin-bottom: 10px;
         }
         
-        header p {
-            font-size: 1.1rem;
+        .subtitle {
+            font-size: 1rem;
             opacity: 0.9;
         }
         
+        .timer-container {
+            background-color: #f5f5f5;
+            padding: 10px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #3a1c71;
+        }
+        
         .progress-container {
-            background: #f0f0f0;
-            height: 10px;
+            height: 8px;
+            background-color: #e0e0e0;
             width: 100%;
         }
         
         .progress-bar {
             height: 100%;
-            background: linear-gradient(to right, #ff9966, #ff5e62);
+            background: linear-gradient(90deg, #3a1c71, #d76d77);
             width: 0%;
-            transition: width 0.5s ease;
+            transition: width 0.3s ease;
         }
         
-        .section {
-            padding: 30px;
-            display: none;
-        }
-        
-        .section.active {
-            display: block;
-        }
-        
-        .welcome-screen {
-            text-align: center;
-        }
-        
-        .welcome-screen h2 {
-            color: #4e54c8;
-            margin-bottom: 20px;
-            font-size: 2rem;
-        }
-        
-        .welcome-screen p {
-            margin-bottom: 15px;
-            font-size: 1.1rem;
-            color: #555;
-        }
-        
-        .start-btn {
-            background: linear-gradient(to right, #4e54c8, #8f94fb);
-            color: white;
-            border: none;
-            padding: 15px 40px;
-            border-radius: 50px;
-            font-size: 1.2rem;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: transform 0.3s, box-shadow 0.3s;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .start-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        .question-container {
+            padding: 25px;
         }
         
         .question {
-            margin-bottom: 25px;
-            padding: 20px;
-            border-radius: 10px;
-            background: #f9f9f9;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
-        }
-        
-        .question-text {
+            margin-bottom: 20px;
             font-size: 1.2rem;
-            margin-bottom: 15px;
-            color: #444;
             font-weight: 500;
+            color: #2c3e50;
         }
         
         .options {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
+            margin-bottom: 25px;
         }
         
         @media (max-width: 600px) {
@@ -136,601 +96,450 @@
         
         .option {
             padding: 15px;
-            background: white;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
             cursor: pointer;
-            transition: all 0.3s;
-            text-align: center;
-            font-weight: 500;
+            transition: all 0.2s ease;
         }
         
         .option:hover {
-            border-color: #4e54c8;
-            background: #f0f3ff;
+            background-color: #f9f9f9;
+            border-color: #aaa;
         }
         
         .option.selected {
-            border-color: #4e54c8;
-            background: #4e54c8;
-            color: white;
+            background-color: #e3f2fd;
+            border-color: #2196f3;
         }
         
-        .nav-buttons {
+        .buttons {
             display: flex;
             justify-content: space-between;
-            margin-top: 30px;
         }
         
-        .nav-btn {
+        button {
             padding: 12px 25px;
-            background: #4e54c8;
-            color: white;
             border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s;
+            border-radius: 8px;
             font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
         
-        .nav-btn:hover {
-            background: #3a3e9e;
+        #prev-btn {
+            background-color: #f5f5f5;
+            color: #333;
         }
         
-        .nav-btn.prev {
-            background: #6c757d;
+        #prev-btn:hover:not(:disabled) {
+            background-color: #e0e0e0;
         }
         
-        .nav-btn.prev:hover {
-            background: #5a6268;
+        #next-btn, #start-btn, #retry-btn {
+            background: linear-gradient(90deg, #3a1c71, #d76d77);
+            color: white;
         }
         
-        .results-screen {
-            text-align: center;
+        #next-btn:hover:not(:disabled), #start-btn:hover, #retry-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .welcome-screen, .results-screen {
             padding: 40px;
+            text-align: center;
         }
         
-        .results-screen h2 {
-            color: #4e54c8;
-            margin-bottom: 20px;
-            font-size: 2.2rem;
-        }
-        
-        .score-display {
-            font-size: 3rem;
-            font-weight: 700;
-            color: #4e54c8;
+        .welcome-screen p, .results-screen p {
             margin: 20px 0;
+            line-height: 1.6;
+            font-size: 1.1rem;
         }
         
-        .score-circle {
-            width: 150px;
-            height: 150px;
-            margin: 0 auto;
-            border-radius: 50%;
-            background: #f0f3ff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 5px solid #4e54c8;
+        .welcome-features {
+            text-align: left;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 25px 0;
+        }
+        
+        .welcome-features li {
+            margin-bottom: 10px;
+            list-style-type: none;
+            padding-left: 25px;
             position: relative;
         }
         
-        .score-info {
-            margin: 30px 0;
-            padding: 20px;
-            background: #f9f9f9;
-            border-radius: 10px;
-            text-align: left;
+        .welcome-features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #3a1c71;
+            font-weight: bold;
         }
         
-        .dimension {
-            margin-bottom: 15px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
+        .iq-score {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #3a1c71;
+            margin: 20px 0;
         }
         
-        .dimension:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-        
-        .dimension-name {
-            font-weight: 600;
-            color: #4e54c8;
-            margin-bottom: 5px;
-        }
-        
-        .dimension-score {
-            height: 10px;
-            background: #e0e0e0;
-            border-radius: 5px;
-            overflow: hidden;
-            margin-bottom: 5px;
-        }
-        
-        .dimension-value {
-            height: 100%;
-            background: linear-gradient(to right, #4e54c8, #8f94fb);
-            border-radius: 5px;
-        }
-        
-        .restart-btn {
-            background: linear-gradient(to right, #4e54c8, #8f94fb);
-            color: white;
-            border: none;
-            padding: 15px 40px;
-            border-radius: 50px;
+        .score-comment {
             font-size: 1.2rem;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: transform 0.3s;
+            margin-bottom: 30px;
         }
         
-        .restart-btn:hover {
-            transform: translateY(-3px);
+        .hidden {
+            display: none;
         }
         
-        .eq-definition {
-            background: #f9f9f9;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
-            text-align: left;
-        }
-        
-        .eq-definition h3 {
-            color: #4e54c8;
-            margin-bottom: 10px;
-        }
-        
-        footer {
+        .question-image {
             text-align: center;
-            color: white;
-            margin-top: 20px;
-            opacity: 0.8;
+            margin: 15px 0;
+        }
+        
+        .question-image img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .question-number {
+            color: #3a1c71;
+            margin-bottom: 10px;
+            font-weight: 600;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1><i class="fas fa-brain"></i> Emotional Intelligence Test</h1>
-            <p>Measure your EQ across 5 key dimensions of emotional intelligence</p>
+            <h1>IQ TEST</h1>
+            <div class="subtitle">Measure your cognitive abilities in 10 minutes</div>
         </header>
+        
+        <div class="timer-container">
+            Time remaining: <span id="timer">10:00</span>
+        </div>
         
         <div class="progress-container">
             <div class="progress-bar" id="progress-bar"></div>
         </div>
         
-        <div class="section active" id="welcome-screen">
-            <div class="welcome-screen">
-                <h2>Discover Your Emotional Intelligence</h2>
-                <p>This test will evaluate your emotional intelligence across five key dimensions:</p>
-                
-                <div class="eq-definition">
-                    <h3>What is Emotional Intelligence (EQ)?</h3>
-                    <p>Emotional intelligence is the ability to recognize, understand, and manage our own emotions while also recognizing, understanding, and influencing the emotions of others.</p>
-                </div>
-                
-                <div class="dimensions-list">
-                    <p><i class="fas fa-check-circle"></i> <strong>Self-Awareness</strong> - Recognizing your own emotions</p>
-                    <p><i class="fas fa-check-circle"></i> <strong>Self-Regulation</strong> - Managing your emotions effectively</p>
-                    <p><i class="fas fa-check-circle"></i> <strong>Motivation</strong> - Harnessing emotions to achieve goals</p>
-                    <p><i class="fas fa-check-circle"></i> <strong>Empathy</strong> - Recognizing emotions in others</p>
-                    <p><i class="fas fa-check-circle"></i> <strong>Social Skills</strong> - Building healthy relationships</p>
-                </div>
-                
-                <p>The test consists of 20 questions and takes about 10 minutes to complete.</p>
-                <button class="start-btn" id="start-test">Begin Test</button>
+        <!-- Welcome Screen -->
+        <div class="welcome-screen" id="welcome-screen">
+            <h2>Welcome to the IQ Test</h2>
+            <p>This test consists of 20 questions designed to measure various cognitive abilities including logical reasoning, pattern recognition, and mathematical ability.</p>
+            
+            <div class="welcome-features">
+                <li>20 multiple-choice questions</li>
+                <li>10 minute time limit</li>
+                <li>Instant results with IQ score estimate</li>
+                <li>Pattern recognition and logic questions</li>
+            </div>
+            
+            <p>Click Start when you're ready to begin. Good luck!</p>
+            <button id="start-btn">Start Test</button>
+        </div>
+        
+        <!-- Question Screen -->
+        <div class="question-container hidden" id="question-screen">
+            <div class="question-number">Question <span id="current-question">1</span> of 20</div>
+            <div class="question" id="question-text">What number continues the sequence: 2, 4, 8, 16, ?</div>
+            
+            <div class="question-image" id="question-image">
+                <!-- Image for visual questions will be inserted here -->
+            </div>
+            
+            <div class="options" id="options-container">
+                <!-- Options will be inserted here by JavaScript -->
+            </div>
+            
+            <div class="buttons">
+                <button id="prev-btn" disabled>Previous</button>
+                <button id="next-btn">Next</button>
             </div>
         </div>
         
-        <div class="section" id="question-screen">
-            <!-- Questions will be inserted here by JavaScript -->
-        </div>
-        
-        <div class="section" id="results-screen">
-            <div class="results-screen">
-                <h2>Your EQ Test Results</h2>
-                <p>Based on your responses, your emotional intelligence score is:</p>
-                
-                <div class="score-circle">
-                    <div class="score-display" id="total-score">0</div>
-                </div>
-                
-                <div class="score-info">
-                    <div class="dimension">
-                        <div class="dimension-name">Self-Awareness</div>
-                        <div class="dimension-score">
-                            <div class="dimension-value" id="self-awareness-value" style="width: 0%"></div>
-                        </div>
-                        <div id="self-awareness-text">Loading...</div>
-                    </div>
-                    
-                    <div class="dimension">
-                        <div class="dimension-name">Self-Regulation</div>
-                        <div class="dimension-score">
-                            <div class="dimension-value" id="self-regulation-value" style="width: 0%"></div>
-                        </div>
-                        <div id="self-regulation-text">Loading...</div>
-                    </div>
-                    
-                    <div class="dimension">
-                        <div class="dimension-name">Motivation</div>
-                        <div class="dimension-score">
-                            <div class="dimension-value" id="motivation-value" style="width: 0%"></div>
-                        </div>
-                        <div id="motivation-text">Loading...</div>
-                    </div>
-                    
-                    <div class="dimension">
-                        <div class="dimension-name">Empathy</div>
-                        <div class="dimension-score">
-                            <div class="dimension-value" id="empathy-value" style="width: 0%"></div>
-                        </div>
-                        <div id="empathy-text">Loading...</div>
-                    </div>
-                    
-                    <div class="dimension">
-                        <div class="dimension-name">Social Skills</div>
-                        <div class="dimension-score">
-                            <div class="dimension-value" id="social-skills-value" style="width: 0%"></div>
-                        </div>
-                        <div id="social-skills-text">Loading...</div>
-                    </div>
-                </div>
-                
-                <button class="restart-btn" id="restart-test">Take Test Again</button>
-            </div>
+        <!-- Results Screen -->
+        <div class="results-screen hidden" id="results-screen">
+            <h2>Test Completed!</h2>
+            <p>Your results are calculated based on your answers and the time taken.</p>
+            
+            <div class="iq-score" id="iq-score">120</div>
+            <div class="score-comment" id="score-comment">Above Average</div>
+            
+            <p>You answered <span id="correct-answers">0</span> out of 20 questions correctly.</p>
+            <p>Remember that this is only an estimate and not a professional IQ assessment.</p>
+            
+            <button id="retry-btn">Try Again</button>
         </div>
     </div>
-    
-    <footer>
-        <p>© 2023 Emotional Intelligence Test | This is a demonstration of a functional EQ test</p>
-    </footer>
 
     <script>
-        // Test questions with dimension mapping
+        // Questions data
         const questions = [
             {
-                text: "When I'm upset, I usually know exactly why.",
-                dimension: "selfAwareness",
-                reverse: false
+                type: "numeric",
+                question: "What number continues the sequence: 2, 4, 8, 16, ?",
+                options: ["24", "32", "30", "28"],
+                correct: 1
             },
             {
-                text: "I find it hard to understand the non-verbal messages of other people.",
-                dimension: "empathy",
-                reverse: true
+                type: "visual",
+                question: "Which figure completes the pattern?",
+                options: ["Option A", "Option B", "Option C", "Option D"],
+                correct: 2,
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'%3E%3Crect x='10' y='10' width='80' height='100' fill='%23f0f0f0' stroke='%23333'/%3E%3Ccircle cx='50' cy='40' r='15' fill='%23333'/%3E%3Ccircle cx='50' cy='80' r='15' fill='%23333'/%3E%3Crect x='110' y='10' width='80' height='100' fill='%23f0f0f0' stroke='%23333'/%3E%3Ccircle cx='150' cy='40' r='15' fill='%23333'/%3E%3Cpath d='M135,80 L165,80' stroke='%23333' stroke-width='5'/%3E%3C/svg%3E"
             },
             {
-                text: "I generally stay calm under pressure.",
-                dimension: "selfRegulation",
-                reverse: false
+                type: "logical",
+                question: "If all roses are flowers and some flowers fade quickly, then:",
+                options: [
+                    "All roses fade quickly",
+                    "Some roses fade quickly",
+                    "Some roses may fade quickly",
+                    "No roses fade quickly"
+                ],
+                correct: 2
             },
             {
-                text: "I find it difficult to bounce back after a setback.",
-                dimension: "motivation",
-                reverse: true
+                type: "numeric",
+                question: "What is 25% of 80?",
+                options: ["15", "20", "25", "30"],
+                correct: 1
             },
             {
-                text: "I can easily explain my emotions to others.",
-                dimension: "socialSkills",
-                reverse: false
+                type: "pattern",
+                question: "Which word does not belong?",
+                options: ["Apple", "Banana", "Orange", "Carrot"],
+                correct: 3
             },
             {
-                text: "I often struggle to understand why I feel the way I do.",
-                dimension: "selfAwareness",
-                reverse: true
+                type: "visual",
+                question: "Which box completes the sequence?",
+                options: ["Option A", "Option B", "Option C", "Option D"],
+                correct: 0,
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'%3E%3Crect x='10' y='10' width='50' height='50' fill='%23333'/%3E%3Crect x='70' y='10' width='50' height='50' fill='%23fff' stroke='%23333'/%3E%3Crect x='130' y='10' width='50' height='50' fill='%23333'/%3E%3Crect x='70' y='60' width='50' height='50' fill='%23fff' stroke='%23333'/%3E%3C/svg%3E"
             },
             {
-                text: "I can easily sense when someone is uncomfortable.",
-                dimension: "empathy",
-                reverse: false
+                type: "logical",
+                question: "If A is equal to B and B is equal to C, then:",
+                options: [
+                    "A is greater than C",
+                    "A is less than C",
+                    "A is equal to C",
+                    "None of the above"
+                ],
+                correct: 2
             },
             {
-                text: "When I'm angry, I tend to say things I later regret.",
-                dimension: "selfRegulation",
-                reverse: true
+                type: "numeric",
+                question: "Solve: 17 + 24 - 13 × 2 ÷ 4",
+                options: ["28", "30", "32", "34"],
+                correct: 0
             },
             {
-                text: "I set clear goals and work consistently toward achieving them.",
-                dimension: "motivation",
-                reverse: false
+                type: "pattern",
+                question: "Which number comes next: 1, 3, 6, 10, 15, ?",
+                options: ["20", "21", "22", "23"],
+                correct: 1
             },
             {
-                text: "I find it challenging to build rapport with new people.",
-                dimension: "socialSkills",
-                reverse: true
-            },
-            {
-                text: "I'm often surprised by the intensity of my emotional reactions.",
-                dimension: "selfAwareness",
-                reverse: true
-            },
-            {
-                text: "I can usually tell when a friend is upset, even if they don't say anything.",
-                dimension: "empathy",
-                reverse: false
-            },
-            {
-                text: "I'm good at managing my impulsive feelings and behaviors.",
-                dimension: "selfRegulation",
-                reverse: false
-            },
-            {
-                text: "I tend to give up easily when faced with obstacles.",
-                dimension: "motivation",
-                reverse: true
-            },
-            {
-                text: "I'm skilled at managing conflict in relationships.",
-                dimension: "socialSkills",
-                reverse: false
-            },
-            {
-                text: "I frequently take time to reflect on my feelings.",
-                dimension: "selfAwareness",
-                reverse: false
-            },
-            {
-                text: "I often misunderstand how others are feeling.",
-                dimension: "empathy",
-                reverse: true
-            },
-            {
-                text: "I can control my temper when criticized.",
-                dimension: "selfRegulation",
-                reverse: false
-            },
-            {
-                text: "I maintain a positive outlook even during difficult times.",
-                dimension: "motivation",
-                reverse: false
-            },
-            {
-                text: "I work effectively in team settings.",
-                dimension: "socialSkills",
-                reverse: false
+                type: "verbal",
+                question: "Which word is the opposite of 'generous'?",
+                options: ["Kind", "Stingy", "Giving", "Friendly"],
+                correct: 1
             }
+            // In a real application, there would be 20 questions
         ];
 
-        // DOM Elements
+        // DOM elements
         const welcomeScreen = document.getElementById('welcome-screen');
         const questionScreen = document.getElementById('question-screen');
         const resultsScreen = document.getElementById('results-screen');
+        const startBtn = document.getElementById('start-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const prevBtn = document.getElementById('prev-btn');
+        const retryBtn = document.getElementById('retry-btn');
+        const questionText = document.getElementById('question-text');
+        const questionImage = document.getElementById('question-image');
+        const optionsContainer = document.getElementById('options-container');
+        const currentQuestionElement = document.getElementById('current-question');
+        const timerElement = document.getElementById('timer');
         const progressBar = document.getElementById('progress-bar');
-        const startTestBtn = document.getElementById('start-test');
-        const restartTestBtn = document.getElementById('restart-test');
-        
+        const iqScoreElement = document.getElementById('iq-score');
+        const correctAnswersElement = document.getElementById('correct-answers');
+        const scoreCommentElement = document.getElementById('score-comment');
+
         // Test state
         let currentQuestion = 0;
-        let answers = [];
-        let scores = {
-            selfAwareness: 0,
-            selfRegulation: 0,
-            motivation: 0,
-            empathy: 0,
-            socialSkills: 0
-        };
-        
+        let userAnswers = [];
+        let timeLeft = 600; // 10 minutes in seconds
+        let timerInterval;
+        let score = 0;
+
         // Initialize the test
         function initTest() {
-            answers = [];
+            userAnswers = new Array(questions.length).fill(null);
             currentQuestion = 0;
-            resetScores();
-            renderQuestion();
+            timeLeft = 600;
+            score = 0;
+            
+            welcomeScreen.classList.add('hidden');
+            questionScreen.classList.remove('hidden');
+            resultsScreen.classList.add('hidden');
+            
             updateProgressBar();
+            displayQuestion();
+            startTimer();
         }
-        
-        // Reset scores
-        function resetScores() {
-            for (let dimension in scores) {
-                scores[dimension] = 0;
-            }
-        }
-        
-        // Render current question
-        function renderQuestion() {
-            questionScreen.innerHTML = '';
-            
+
+        // Display current question
+        function displayQuestion() {
             const question = questions[currentQuestion];
-            const questionElement = document.createElement('div');
-            questionElement.className = 'question';
+            questionText.textContent = question.question;
+            currentQuestionElement.textContent = currentQuestion + 1;
             
-            questionElement.innerHTML = `
-                <div class="question-text">${currentQuestion + 1}. ${question.text}</div>
-                <div class="options">
-                    <div class="option" data-value="1">Strongly Disagree</div>
-                    <div class="option" data-value="2">Disagree</div>
-                    <div class="option" data-value="3">Neutral</div>
-                    <div class="option" data-value="4">Agree</div>
-                    <div class="option" data-value="5">Strongly Agree</div>
-                </div>
-            `;
+            // Handle question image
+            if (question.image) {
+                questionImage.innerHTML = `<img src="${question.image}" alt="Question visual">`;
+            } else {
+                questionImage.innerHTML = '';
+            }
             
-            questionScreen.appendChild(questionElement);
-            
-            // Add event listeners to options
-            const options = questionElement.querySelectorAll('.option');
-            options.forEach(option => {
-                option.addEventListener('click', () => {
-                    options.forEach(opt => opt.classList.remove('selected'));
-                    option.classList.add('selected');
-                    
-                    // Store answer
-                    answers[currentQuestion] = parseInt(option.getAttribute('data-value'));
-                    
-                    // Enable next button after a short delay
-                    setTimeout(() => {
-                        document.getElementById('next-btn').disabled = false;
-                    }, 300);
-                });
+            // Display options
+            optionsContainer.innerHTML = '';
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.classList.add('option');
+                if (userAnswers[currentQuestion] === index) {
+                    optionElement.classList.add('selected');
+                }
+                optionElement.textContent = option;
+                optionElement.addEventListener('click', () => selectOption(index));
+                optionsContainer.appendChild(optionElement);
             });
             
-            // Add navigation buttons
-            const navButtons = document.createElement('div');
-            navButtons.className = 'nav-buttons';
-            
-            if (currentQuestion > 0) {
-                navButtons.innerHTML = `
-                    <button class="nav-btn prev" id="prev-btn">Previous</button>
-                    <button class="nav-btn" id="next-btn" disabled>Next</button>
-                `;
-            } else {
-                navButtons.innerHTML = `
-                    <div></div>
-                    <button class="nav-btn" id="next-btn" disabled>Next</button>
-                `;
-            }
-            
-            questionScreen.appendChild(navButtons);
-            
-            // Add event listeners to nav buttons
-            if (currentQuestion > 0) {
-                document.getElementById('prev-btn').addEventListener('click', goToPreviousQuestion);
-            }
-            
-            document.getElementById('next-btn').addEventListener('click', goToNextQuestion);
+            // Update buttons
+            prevBtn.disabled = currentQuestion === 0;
+            nextBtn.textContent = currentQuestion === questions.length - 1 ? 'Finish' : 'Next';
         }
-        
-        // Update progress bar
-        function updateProgressBar() {
-            const progress = ((currentQuestion + 1) / questions.length) * 100;
-            progressBar.style.width = `${progress}%`;
+
+        // Select an option
+        function selectOption(optionIndex) {
+            userAnswers[currentQuestion] = optionIndex;
+            
+            // Update UI to show selected option
+            const options = optionsContainer.querySelectorAll('.option');
+            options.forEach((option, index) => {
+                if (index === optionIndex) {
+                    option.classList.add('selected');
+                } else {
+                    option.classList.remove('selected');
+                }
+            });
         }
-        
-        // Navigate to next question
-        function goToNextQuestion() {
+
+        // Move to next question
+        function nextQuestion() {
             if (currentQuestion < questions.length - 1) {
                 currentQuestion++;
-                renderQuestion();
-                updateProgressBar();
+                displayQuestion();
             } else {
-                calculateResults();
-                showResults();
+                finishTest();
             }
         }
-        
-        // Navigate to previous question
-        function goToPreviousQuestion() {
+
+        // Move to previous question
+        function previousQuestion() {
             if (currentQuestion > 0) {
                 currentQuestion--;
-                renderQuestion();
+                displayQuestion();
+            }
+        }
+
+        // Start timer
+        function startTimer() {
+            clearInterval(timerInterval);
+            updateTimerDisplay();
+            
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
                 updateProgressBar();
                 
-                // Pre-select previous answer if exists
-                if (answers[currentQuestion] !== undefined) {
-                    const options = document.querySelectorAll('.option');
-                    options.forEach(option => {
-                        if (parseInt(option.getAttribute('data-value')) === answers[currentQuestion]) {
-                            option.classList.add('selected');
-                        }
-                    });
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    finishTest();
                 }
-            }
+            }, 1000);
         }
-        
-        // Calculate results
-        function calculateResults() {
-            resetScores();
+
+        // Update timer display
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // Update progress bar
+        function updateProgressBar() {
+            const progress = ((600 - timeLeft) / 600) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        // Finish the test and show results
+        function finishTest() {
+            clearInterval(timerInterval);
             
-            questions.forEach((question, index) => {
-                let answerValue = answers[index];
-                
-                // Reverse score if needed
-                if (question.reverse) {
-                    answerValue = 6 - answerValue;
+            // Calculate score
+            score = 0;
+            userAnswers.forEach((answer, index) => {
+                if (answer === questions[index].correct) {
+                    score++;
                 }
-                
-                // Add to dimension score
-                scores[question.dimension] += answerValue;
             });
             
-            // Calculate percentage scores (max 5 questions per dimension, max score 25)
-            for (let dimension in scores) {
-                scores[dimension] = (scores[dimension] / 25) * 100;
+            // Calculate IQ score (simplified estimation)
+            const iqScore = Math.round(100 + (score / questions.length) * 50);
+            
+            // Set results
+            iqScoreElement.textContent = iqScore;
+            correctAnswersElement.textContent = `${score} out of ${questions.length}`;
+            
+            // Set comment based on score
+            if (iqScore < 90) {
+                scoreCommentElement.textContent = "Below Average";
+            } else if (iqScore < 110) {
+                scoreCommentElement.textContent = "Average";
+            } else if (iqScore < 120) {
+                scoreCommentElement.textContent = "Above Average";
+            } else if (iqScore < 130) {
+                scoreCommentElement.textContent = "Superior";
+            } else {
+                scoreCommentElement.textContent = "Very Superior";
             }
-        }
-        
-        // Show results screen
-        function showResults() {
-            welcomeScreen.classList.remove('active');
-            questionScreen.classList.remove('active');
-            resultsScreen.classList.add('active');
             
-            // Update total score (average of all dimensions)
-            const totalScore = (scores.selfAwareness + scores.selfRegulation + 
-                               scores.motivation + scores.empathy + scores.socialSkills) / 5;
-            document.getElementById('total-score').textContent = Math.round(totalScore);
-            
-            // Update dimension scores with animation
-            animateScore('self-awareness-value', scores.selfAwareness);
-            animateScore('self-regulation-value', scores.selfRegulation);
-            animateScore('motivation-value', scores.motivation);
-            animateScore('empathy-value', scores.empathy);
-            animateScore('social-skills-value', scores.socialSkills);
-            
-            // Update dimension text
-            document.getElementById('self-awareness-text').textContent = getDimensionText(scores.selfAwareness, 
-                "You're highly aware of your emotions and their impact",
-                "You have good self-awareness but could improve",
-                "You struggle to recognize your own emotions");
-                
-            document.getElementById('self-regulation-text').textContent = getDimensionText(scores.selfRegulation,
-                "You excel at managing your emotions effectively",
-                "You have decent emotional control but room for growth",
-                "You find it challenging to regulate your emotions");
-                
-            document.getElementById('motivation-text').textContent = getDimensionText(scores.motivation,
-                "You're highly motivated and resilient",
-                "You have reasonable motivation but could be more driven",
-                "You struggle with maintaining motivation");
-                
-            document.getElementById('empathy-text').textContent = getDimensionText(scores.empathy,
-                "You're highly empathetic and understand others' feelings",
-                "You have decent empathy but could improve",
-                "You find it difficult to understand others' emotions");
-                
-            document.getElementById('social-skills-text').textContent = getDimensionText(scores.socialSkills,
-                "You have excellent social skills and build strong relationships",
-                "You have adequate social skills but room for improvement",
-                "You struggle with social interactions and building relationships");
+            // Show results screen
+            questionScreen.classList.add('hidden');
+            resultsScreen.classList.remove('hidden');
         }
-        
-        // Animate score bars
-        function animateScore(elementId, score) {
-            const element = document.getElementById(elementId);
-            let width = 0;
-            const interval = setInterval(() => {
-                if (width >= score) {
-                    clearInterval(interval);
-                } else {
-                    width++;
-                    element.style.width = `${width}%`;
-                }
-            }, 15);
-        }
-        
-        // Get dimension text based on score
-        function getDimensionText(score, highText, mediumText, lowText) {
-            if (score >= 80) return highText;
-            if (score >= 50) return mediumText;
-            return lowText;
-        }
-        
+
         // Event listeners
-        startTestBtn.addEventListener('click', () => {
-            welcomeScreen.classList.remove('active');
-            questionScreen.classList.add('active');
-            initTest();
-        });
-        
-        restartTestBtn.addEventListener('click', () => {
-            resultsScreen.classList.remove('active');
-            welcomeScreen.classList.add('active');
-        });
+        startBtn.addEventListener('click', initTest);
+        nextBtn.addEventListener('click', nextQuestion);
+        prevBtn.addEventListener('click', previousQuestion);
+        retryBtn.addEventListener('click', initTest);
     </script>
 </body>
 </html>
